@@ -2,14 +2,16 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/webhook', methods=['POST'])
+@app.route('/webhook', methods=['GET', 'POST'])
 def webhook():
-    data = request.json
-    print("Received alert:", data)
+    if request.method == 'POST':
+        data = request.json
+        print("Received TradingView alert:", data)
+        # Handle alert logic here
+        return jsonify({"status": "received"}), 200
 
-    # Process the RSI alert and trigger trading logic here
-
-    return jsonify({"status": "success"}), 200
+    # Handle UptimeRobot ping
+    return "Webhook is alive", 200
 
 import os
 
